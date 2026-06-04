@@ -76,7 +76,7 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 4,
+        "w": 5,
         "x": 0,
         "y": 1
       },
@@ -146,8 +146,8 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 4,
-        "x": 4,
+        "w": 5,
+        "x": 5,
         "y": 1
       },
       "id": 102,
@@ -177,7 +177,7 @@
           "instant": false
         }
       ],
-      "title": "Equivalent API Value",
+      "title": "Equiv API Value",
       "type": "stat"
     },
     {
@@ -208,8 +208,8 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 3,
-        "x": 8,
+        "w": 4,
+        "x": 10,
         "y": 1
       },
       "id": 103,
@@ -239,7 +239,7 @@
           "instant": false
         }
       ],
-      "title": "Plan Cost (range)",
+      "title": "Plan Cost",
       "type": "stat"
     },
     {
@@ -278,8 +278,8 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 3,
-        "x": 11,
+        "w": 4,
+        "x": 14,
         "y": 1
       },
       "id": 104,
@@ -309,7 +309,7 @@
           "instant": false
         }
       ],
-      "title": "Peak Concurrent Agents",
+      "title": "Peak Agents",
       "type": "stat"
     },
     {
@@ -362,8 +362,8 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 10,
-        "x": 14,
+        "w": 6,
+        "x": 18,
         "y": 1
       },
       "id": 105,
@@ -390,7 +390,7 @@
           "legendFormat": "leverage"
         }
       ],
-      "title": "Leverage vs plan over time  (\u00d7, above 1 beats the subscription)",
+      "title": "Leverage over time (\u00d7)",
       "type": "timeseries"
     },
     {
@@ -476,7 +476,7 @@
           "instant": true
         }
       ],
-      "title": "Code Churn Ratio  (removed \u00f7 added)",
+      "title": "Code Churn Ratio",
       "type": "gauge"
     },
     {
@@ -546,7 +546,7 @@
           "instant": false
         }
       ],
-      "title": "Output Density  (edits / $100)",
+      "title": "Output Density",
       "type": "stat"
     },
     {
@@ -585,7 +585,7 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 4,
+        "w": 5,
         "x": 10,
         "y": 7
       },
@@ -655,8 +655,8 @@
       },
       "gridPos": {
         "h": 6,
-        "w": 10,
-        "x": 14,
+        "w": 9,
+        "x": 15,
         "y": 7
       },
       "id": 110,
@@ -685,7 +685,7 @@
           "legendFormat": "{{sid}}"
         }
       ],
-      "title": "Burn per edit by session  (spinners rise to the top)",
+      "title": "Burn per edit by session",
       "type": "bargauge"
     },
     {
@@ -1793,7 +1793,7 @@
             "type": "loki",
             "uid": "loki"
           },
-          "expr": "100 * (sum by (tool_name) (count_over_time({service_name=\"claude-code\"} |= \"claude_code.tool_result\" | json | success=\"true\" [15m]))) / (sum by (tool_name) (count_over_time({service_name=\"claude-code\"} |= \"claude_code.tool_result\" [15m])))",
+          "expr": "100 * (sum by (tool_name) (count_over_time({service_name=\"claude-code\"} |= \"claude_code.tool_result\" | success=\"true\" [15m]))) / (sum by (tool_name) (count_over_time({service_name=\"claude-code\"} |= \"claude_code.tool_result\" [15m])))",
           "interval": "",
           "legendFormat": "{{tool_name}}",
           "refId": "A"
@@ -1987,7 +1987,7 @@
             "type": "loki",
             "uid": "loki"
           },
-          "expr": "sum by (status_code) (rate({service_name=\"claude-code\"} |= \"claude_code.api_error\" | json | __error__ = \"\" [$__interval]))",
+          "expr": "sum by (status_code) (rate({service_name=\"claude-code\"} |= \"claude_code.api_error\" [$__interval]))",
           "interval": "",
           "legendFormat": "HTTP {{status_code}}",
           "refId": "A"
@@ -3221,5 +3221,5 @@
   "timezone": "",
   "title": "Claude Code Observability",
   "uid": "claude-code-obs",
-  "version": 10
+  "version": 11
 }
