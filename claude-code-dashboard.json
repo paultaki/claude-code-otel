@@ -24,13 +24,678 @@
   "liveNow": false,
   "panels": [
     {
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 100,
+      "panels": [],
+      "title": "\ud83d\ude80 Max Plan Leverage  (your data is ~$0 marginal under Max, so cost = leverage extracted)",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Equivalent API value extracted divided by the prorated cost of your flat Max plan over the selected range. Higher = more compute leverage per subscription dollar.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 5
+              },
+              {
+                "color": "green",
+                "value": 15
+              }
+            ]
+          },
+          "unit": "none",
+          "decimals": 1
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 0,
+        "y": 1
+      },
+      "id": 101,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum(increase(claude_code_cost_usage_USD_total[$__range])) / ($plan_monthly * $__range_s / 2629743)",
+          "refId": "A",
+          "legendFormat": "",
+          "instant": false
+        }
+      ],
+      "title": "Leverage (\u00d7 plan)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "What this usage would have cost at pay-as-you-go API prices over the selected range.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 75
+              },
+              {
+                "color": "green",
+                "value": 175
+              }
+            ]
+          },
+          "unit": "currencyUSD",
+          "decimals": 2
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 4,
+        "x": 4,
+        "y": 1
+      },
+      "id": 102,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum(increase(claude_code_cost_usage_USD_total[$__range]))",
+          "refId": "A",
+          "legendFormat": "",
+          "instant": false
+        }
+      ],
+      "title": "Equivalent API Value",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Your Max subscription cost prorated to the selected range. Set the price with the 'Max plan $/mo' variable.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "none"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          },
+          "unit": "currencyUSD",
+          "decimals": 2
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 3,
+        "x": 8,
+        "y": 1
+      },
+      "id": 103,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "($plan_monthly * $__range_s / 2629743)",
+          "refId": "A",
+          "legendFormat": "",
+          "instant": false
+        }
+      ],
+      "title": "Plan Cost (range)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Peak number of sessions actively working at the same time (cmux parallelism). Sparkline shows concurrency over the range.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 2
+              },
+              {
+                "color": "green",
+                "value": 4
+              }
+            ]
+          },
+          "unit": "none",
+          "decimals": 1
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 3,
+        "x": 11,
+        "y": 1
+      },
+      "id": 104,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "max"
+          ],
+          "fields": ""
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum(rate(claude_code_active_time_seconds_total[$__rate_interval]))",
+          "refId": "A",
+          "legendFormat": "",
+          "instant": false
+        }
+      ],
+      "title": "Peak Concurrent Agents",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Instantaneous burn rate as a multiple of the plan's equivalent hourly cost. Line turns green whenever you're beating the flat subscription.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "opacity",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "never",
+            "spanNulls": true,
+            "stacking": {
+              "mode": "none",
+              "group": "A"
+            },
+            "thresholdsStyle": {
+              "mode": "line"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none",
+          "decimals": 1
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 10,
+        "x": 14,
+        "y": 1
+      },
+      "id": 105,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "bottom",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum(rate(claude_code_cost_usage_USD_total[$__rate_interval])) * 3600 / ($plan_monthly / 730)",
+          "refId": "A",
+          "legendFormat": "leverage"
+        }
+      ],
+      "title": "Leverage vs plan over time  (\u00d7, above 1 beats the subscription)",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 6
+      },
+      "id": 106,
+      "panels": [],
+      "title": "\ud83c\udfaf Signal vs Noise  (when burn is free, the only thing worth minimizing is wasted burn)",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Lines deleted divided by lines added. Low = clean, mostly net-new work. High = Claude rewriting its own code = thrash.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "min": 0,
+          "max": 1.5,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.4
+              },
+              {
+                "color": "red",
+                "value": 0.8
+              }
+            ]
+          },
+          "unit": "none",
+          "decimals": 2
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 5,
+        "x": 0,
+        "y": 7
+      },
+      "id": 107,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum(increase(claude_code_lines_of_code_count_total{type=\"removed\"}[$__range])) / clamp_min(sum(increase(claude_code_lines_of_code_count_total{type=\"added\"}[$__range])),1)",
+          "refId": "A",
+          "instant": true
+        }
+      ],
+      "title": "Code Churn Ratio  (removed \u00f7 added)",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Concrete file edits produced per $100 of equivalent burn. Higher = the burn is producing code, not spinning.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 25
+              },
+              {
+                "color": "green",
+                "value": 50
+              }
+            ]
+          },
+          "unit": "none",
+          "decimals": 0
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 5,
+        "x": 5,
+        "y": 7
+      },
+      "id": 108,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "100 * sum(increase(claude_code_code_edit_tool_decision_total[$__range])) / clamp_min(sum(increase(claude_code_cost_usage_USD_total[$__range])),1)",
+          "refId": "A",
+          "legendFormat": "",
+          "instant": false
+        }
+      ],
+      "title": "Output Density  (edits / $100)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Equivalent dollars burned per concrete file edit. Low = dense, productive. High = lots of tokens, little shipped.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 3
+              },
+              {
+                "color": "red",
+                "value": 8
+              }
+            ]
+          },
+          "unit": "currencyUSD",
+          "decimals": 2
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 10,
+        "y": 7
+      },
+      "id": 109,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "auto",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "sum(increase(claude_code_cost_usage_USD_total[$__range])) / clamp_min(sum(increase(claude_code_code_edit_tool_decision_total[$__range])),1)",
+          "refId": "A",
+          "legendFormat": "",
+          "instant": false
+        }
+      ],
+      "title": "Burn per Edit",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "description": "Per-session $ burned per edit. The session at the top burned the most for the least concrete output this range = the one to inspect.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 4
+              },
+              {
+                "color": "red",
+                "value": 10
+              }
+            ]
+          },
+          "unit": "currencyUSD",
+          "decimals": 2
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 10,
+        "x": 14,
+        "y": 7
+      },
+      "id": 110,
+      "options": {
+        "displayMode": "gradient",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "values": false,
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": ""
+        },
+        "showUnfilled": true,
+        "valueMode": "color"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
+          },
+          "expr": "topk(7, label_replace(sum by(session_id)(increase(claude_code_cost_usage_USD_total[$__range])) / clamp_min(sum by(session_id)(increase(claude_code_code_edit_tool_decision_total[$__range])),1), \"sid\",\"$1\",\"session_id\",\"(.{8}).*\"))",
+          "refId": "A",
+          "instant": true,
+          "legendFormat": "{{sid}}"
+        }
+      ],
+      "title": "Burn per edit by session  (spinners rise to the top)",
+      "type": "bargauge"
+    },
+    {
       "title": "\ud83d\udcca Overview",
       "type": "row",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 13
       },
       "collapsed": false
     },
@@ -70,7 +735,7 @@
         "h": 4,
         "w": 6,
         "x": 0,
-        "y": 1
+        "y": 14
       },
       "id": 1,
       "options": {
@@ -138,7 +803,7 @@
         "h": 4,
         "w": 6,
         "x": 6,
-        "y": 1
+        "y": 14
       },
       "id": 2,
       "options": {
@@ -206,7 +871,7 @@
         "h": 4,
         "w": 6,
         "x": 12,
-        "y": 1
+        "y": 14
       },
       "id": 3,
       "options": {
@@ -274,7 +939,7 @@
         "h": 4,
         "w": 6,
         "x": 18,
-        "y": 1
+        "y": 14
       },
       "id": 4,
       "options": {
@@ -313,7 +978,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 5
+        "y": 18
       },
       "collapsed": false
     },
@@ -377,7 +1042,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 6
+        "y": 19
       },
       "id": 5,
       "options": {
@@ -547,7 +1212,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 6
+        "y": 19
       },
       "id": 6,
       "options": {
@@ -678,7 +1343,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 14
+        "y": 27
       },
       "id": 15,
       "options": {
@@ -718,7 +1383,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 22
+        "y": 35
       },
       "collapsed": false
     },
@@ -852,7 +1517,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 23
+        "y": 36
       },
       "id": 7,
       "options": {
@@ -1007,7 +1672,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 23
+        "y": 36
       },
       "id": 14,
       "options": {
@@ -1106,7 +1771,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 23
+        "y": 36
       },
       "id": 8,
       "options": {
@@ -1144,7 +1809,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 39
+        "y": 52
       },
       "collapsed": false
     },
@@ -1208,7 +1873,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 40
+        "y": 53
       },
       "id": 9,
       "options": {
@@ -1300,7 +1965,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 40
+        "y": 53
       },
       "id": 10,
       "options": {
@@ -1338,7 +2003,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 48
+        "y": 61
       },
       "collapsed": false
     },
@@ -1402,7 +2067,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 49
+        "y": 62
       },
       "id": 11,
       "options": {
@@ -1493,7 +2158,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 49
+        "y": 62
       },
       "id": 12,
       "options": {
@@ -1541,7 +2206,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 57
+        "y": 70
       },
       "collapsed": false
     },
@@ -1554,7 +2219,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 58
+        "y": 71
       },
       "id": 13,
       "options": {
@@ -1589,7 +2254,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 58
+        "y": 71
       },
       "id": 17,
       "options": {
@@ -1623,7 +2288,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 66
+        "y": 79
       },
       "id": 18,
       "panels": []
@@ -1656,7 +2321,7 @@
         "h": 4,
         "w": 8,
         "x": 0,
-        "y": 67
+        "y": 80
       },
       "id": 19,
       "options": {
@@ -1716,7 +2381,7 @@
         "h": 4,
         "w": 8,
         "x": 8,
-        "y": 67
+        "y": 80
       },
       "id": 20,
       "options": {
@@ -1776,7 +2441,7 @@
         "h": 4,
         "w": 8,
         "x": 16,
-        "y": 67
+        "y": 80
       },
       "id": 21,
       "options": {
@@ -1816,7 +2481,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 71
+        "y": 84
       },
       "id": 22,
       "panels": []
@@ -1833,7 +2498,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 72
+        "y": 85
       },
       "fieldConfig": {
         "defaults": {
@@ -1891,7 +2556,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 72
+        "y": 85
       },
       "fieldConfig": {
         "defaults": {
@@ -1949,7 +2614,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 72
+        "y": 85
       },
       "fieldConfig": {
         "defaults": {
@@ -2003,7 +2668,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 80
+        "y": 93
       },
       "id": 26,
       "panels": []
@@ -2036,7 +2701,7 @@
         "h": 5,
         "w": 6,
         "x": 0,
-        "y": 81
+        "y": 94
       },
       "id": 27,
       "options": {
@@ -2095,7 +2760,7 @@
         "h": 5,
         "w": 6,
         "x": 6,
-        "y": 81
+        "y": 94
       },
       "id": 28,
       "options": {
@@ -2138,7 +2803,7 @@
         "h": 5,
         "w": 12,
         "x": 12,
-        "y": 81
+        "y": 94
       },
       "fieldConfig": {
         "defaults": {
@@ -2185,7 +2850,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 86
+        "y": 99
       },
       "id": 30,
       "panels": []
@@ -2218,7 +2883,7 @@
         "h": 5,
         "w": 6,
         "x": 0,
-        "y": 87
+        "y": 100
       },
       "id": 31,
       "options": {
@@ -2277,7 +2942,7 @@
         "h": 5,
         "w": 6,
         "x": 6,
-        "y": 87
+        "y": 100
       },
       "id": 32,
       "options": {
@@ -2336,7 +3001,7 @@
         "h": 5,
         "w": 6,
         "x": 12,
-        "y": 87
+        "y": 100
       },
       "id": 33,
       "options": {
@@ -2395,7 +3060,7 @@
         "h": 5,
         "w": 6,
         "x": 18,
-        "y": 87
+        "y": 100
       },
       "id": 34,
       "options": {
@@ -2438,7 +3103,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 92
+        "y": 105
       },
       "fieldConfig": {
         "defaults": {
@@ -2527,6 +3192,24 @@
         "refresh": 2,
         "sort": 1,
         "hide": 0
+      },
+      {
+        "name": "plan_monthly",
+        "label": "Max plan $/mo",
+        "type": "textbox",
+        "query": "200",
+        "current": {
+          "text": "200",
+          "value": "200"
+        },
+        "options": [
+          {
+            "text": "200",
+            "value": "200",
+            "selected": true
+          }
+        ],
+        "hide": 0
       }
     ]
   },
@@ -2538,5 +3221,5 @@
   "timezone": "",
   "title": "Claude Code Observability",
   "uid": "claude-code-obs",
-  "version": 9
+  "version": 10
 }
